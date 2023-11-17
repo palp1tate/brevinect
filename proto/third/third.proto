@@ -1,0 +1,49 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package thirdProto;
+option go_package = ".;thirdProto";
+
+service ThirdPartyService {
+  rpc GetPicCaptcha(google.protobuf.Empty) returns (GetPicCaptchaResponse) {}
+  rpc CheckPicCaptcha(CheckPicCaptchaRequest) returns (google.protobuf.Empty) {}
+  rpc GetSmsCaptcha(GetSmsCaptchaRequest) returns (google.protobuf.Empty) {}
+  rpc CheckSmsCaptcha(CheckSmsCaptchaRequest) returns (google.protobuf.Empty) {}
+  rpc UploadFile(UploadFileRequest) returns (UploadFileResponse) {}
+  rpc DeleteFile(DeleteFileRequest) returns (google.protobuf.Empty) {}
+}
+
+message GetPicCaptchaResponse {
+  string captchaId = 1;
+  string picPath = 2;
+}
+
+message CheckPicCaptchaRequest{
+  string captchaId = 1;
+  string captcha = 2;
+}
+
+message GetSmsCaptchaRequest {
+  string mobile = 1;
+  int64 type = 2;
+}
+
+message CheckSmsCaptchaRequest {
+  string mobile = 1;
+  string captcha = 2;
+  int64 type = 3;
+}
+
+message UploadFileRequest {
+  bytes data = 1;
+  int64 size = 2;
+  string suffix = 3;
+}
+
+message UploadFileResponse {
+  string url = 1;
+}
+
+message DeleteFileRequest {
+  string url = 1;
+}
+

@@ -1,0 +1,7 @@
+host: '172.28.242.13'
+port: 8848
+namespace: '7c2d9a17-ed59-4c7e-9399-20bad91b4a67'
+user: 'nacos'
+password: 'nacos'
+dataId: 'ThirdPartyService.json'
+group: 'dev'

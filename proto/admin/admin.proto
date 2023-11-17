@@ -1,0 +1,99 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package adminProto;
+option go_package = ".;adminProto";
+
+service AdminService {
+  rpc CheckMobile(CheckMobileRequest) returns (CheckMobileResponse) {}
+  rpc LoginByPassword(LoginByPasswordRequest) returns (LoginResponse);
+  rpc LoginBySMS(LoginBySMSRequest) returns (LoginResponse) {}
+  rpc GetAdmin(GetAdminRequest) returns (GetAdminResponse);
+
+  rpc AddCompany(AddCompanyRequest) returns (google.protobuf.Empty);
+  rpc UpdateCompany(UpdateCompanyRequest) returns (google.protobuf.Empty);
+  rpc DeleteCompany(DeleteCompanyRequest) returns (google.protobuf.Empty);
+  rpc GetCompany(GetCompanyRequest) returns (GetCompanyResponse);
+  rpc GetCompanyList(GetCompanyListRequest) returns (GetCompanyListResponse);
+}
+
+message CheckMobileRequest {
+  string mobile = 1;
+}
+
+message CheckMobileResponse {
+  bool exist = 1;
+}
+
+message LoginByPasswordRequest {
+  string mobile = 1;
+  string password = 2;
+}
+
+message LoginBySMSRequest {
+  string mobile = 1;
+}
+
+message LoginResponse{
+  int64 id = 1;
+  int64 company = 2;
+}
+
+message GetAdminRequest {
+  int64 id = 1;
+}
+
+message GetAdminResponse {
+  int64 id = 1;
+  string username = 2;
+  string mobile = 3;
+  int64 company = 4;
+  string avatar = 5;
+}
+
+message AddCompanyRequest {
+  string name = 1;
+  string address = 2;
+  string officialMobile = 3;
+  string officialSite = 4;
+  string companyType = 5;
+  string Introduction = 6;
+  string Picture = 7;
+}
+
+message Company{
+  int64 id = 1;
+  string name = 2;
+  string address = 3;
+  string officialMobile = 4;
+  string officialSite = 5;
+  string companyType = 6;
+  string Introduction = 7;
+  string Picture = 8;
+}
+
+message UpdateCompanyRequest {
+  Company company = 1;
+}
+
+message DeleteCompanyRequest {
+  int64 id = 1;
+}
+
+message GetCompanyRequest {
+  int64 id = 1;
+}
+
+message GetCompanyResponse {
+  Company company = 1;
+}
+
+message GetCompanyListRequest {
+  int64 page = 1;
+  int64 pageSize = 2;
+}
+
+message GetCompanyListResponse {
+  repeated Company companyList = 1;
+  int64 pages = 2;
+  int64 totalCount = 3;
+}
