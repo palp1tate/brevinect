@@ -220,6 +220,61 @@ func (s *AdminServer) GetRoomList(ctx context.Context, req *adminProto.GetRoomLi
 	return res, nil
 }
 
+func (s *AdminServer) GetUser(ctx context.Context, req *adminProto.GetUserRequest) (*adminProto.GetUserResponse, error) {
+	user, err := dao.FindUserById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该用户不存在")
+	}
+	res := &adminProto.GetUserResponse{
+		User: UserModeToResponse(user),
+	}
+	return res, nil
+}
+
+func (s *AdminServer) GetUserList(ctx context.Context, req *adminProto.GetUserListRequest) (*adminProto.GetUserListResponse, error) {
+	users, pages, totalCount, err := dao.FindUserList(req.Page, req.PageSize, req.Company)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "获取用户列表失败")
+	}
+	userList := make([]*adminProto.User, len(users))
+	for i, user := range users {
+		userList[i] = UserModeToResponse(user)
+	}
+	res := &adminProto.GetUserListResponse{
+		UserList:   userList,
+		Pages:      pages,
+		TotalCount: totalCount,
+	}
+	return res, nil
+}
+
+func (s *AdminServer) UpdateUser(ctx context.Context, req *adminProto.UpdateUserRequest) (*empty.Empty, error) {
+	user, err := dao.FindUserById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该用户不存在")
+	}
+	user.Username = req.Username
+	user.Avatar = req.Avatar
+	user.Face = req.Face
+	err = dao.UpdateUser(user)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "更新用户信息失败")
+	}
+	return &empty.Empty{}, nil
+}
+
+func (s *AdminServer) DeleteUser(ctx context.Context, req *adminProto.DeleteUserRequest) (*empty.Empty, error) {
+	user, err := dao.FindUserById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该用户不存在")
+	}
+	err = dao.DeleteUser(user)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "删除用户失败")
+	}
+	return &empty.Empty{}, nil
+}
+
 func CompanyModelToResponse(company model.Company) *adminProto.Company {
 	return &adminProto.Company{
 		Id:             int64(company.ID),
@@ -246,5 +301,15 @@ func RoomModelToResponse(room model.Room) *adminProto.Room {
 		Facility: room.Facility,
 		Location: room.Location,
 		Photo:    photoList,
+	}
+}
+
+func UserModeToResponse(user model.User) *adminProto.User {
+	return &adminProto.User{
+		Id:       int64(user.ID),
+		Username: user.Username,
+		Mobile:   user.Mobile,
+		Avatar:   user.Avatar,
+		Face:     user.Face,
 	}
 }

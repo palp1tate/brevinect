@@ -61,6 +61,7 @@ message GetUserResponse{
   string mobile = 3;
   int64 company = 4;
   string avatar = 5;
+  string face = 6;
 }
 
 message ResetPasswordRequest{

@@ -123,7 +123,7 @@ func UserLogin(c *gin.Context) {
 	return
 }
 
-func GetUser(c *gin.Context) {
+func GetUserByUser(c *gin.Context) {
 	userId := c.GetInt("id")
 	res, err := global.UserServiceClient.GetUser(context.Background(), &userProto.GetUserRequest{
 		Id: int64(userId),
@@ -135,13 +135,7 @@ func GetUser(c *gin.Context) {
 	token := c.GetString("token")
 	j := middleware.NewJWT()
 	refreshedToken, _ := j.RefreshToken(token)
-	HandleHttpResponse(c, http.StatusOK, "获取用户信息成功", refreshedToken, gin.H{
-		"userId":   userId,
-		"username": res.Username,
-		"mobile":   res.Mobile,
-		"company":  res.Company,
-		"avatar":   res.Avatar,
-	})
+	HandleHttpResponse(c, http.StatusOK, "获取用户信息成功", refreshedToken, res)
 	return
 }
 
@@ -172,8 +166,8 @@ func ResetPassword(c *gin.Context) {
 	return
 }
 
-func UpdateUser(c *gin.Context) {
-	updateUserForm := form.UpdateUserForm{}
+func UpdateUserByUser(c *gin.Context) {
+	updateUserForm := form.UpdateUserFormByUser{}
 	if err := c.ShouldBind(&updateUserForm); err != nil {
 		HandleValidatorError(c, err)
 		return

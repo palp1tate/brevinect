@@ -1,10 +1,17 @@
 syntax = "proto3";
+import "google/protobuf/empty.proto";
 package meetingProto;
 option go_package = ".;meetingProto";
 
 service MeetingService {
   rpc GetRoom(GetRoomRequest) returns (GetRoomResponse);
   rpc GetRoomList(GetRoomListRequest) returns (GetRoomListResponse);
+
+  rpc BookRoom(BookRoomRequest) returns (google.protobuf.Empty);
+  rpc CancelBook(CancelBookRequest) returns (google.protobuf.Empty);
+  rpc GetBookList(GetBookListRequest) returns (GetBookListResponse);
+  rpc GetBook(GetBookRequest) returns (GetBookResponse);
+  rpc UpdateBook(UpdateBookRequest) returns (google.protobuf.Empty);
 }
 
 message Room {
@@ -14,6 +21,7 @@ message Room {
   int64 capacity = 4;
   string facility = 5;
   repeated string photo = 6;
+  repeated Period bookedTime = 7;
 }
 
 message GetRoomRequest {
@@ -34,4 +42,54 @@ message GetRoomListResponse {
   repeated Room roomList = 1;
   int64 pages = 2;
   int64 totalCount = 3;
+}
+
+message Period {
+  int64 startTime = 1;
+  int64 endTime = 2;
+}
+
+message BookRoomRequest {
+  int64 userId = 1;
+  int64 roomId = 2;
+  string theme = 3;
+  Period period = 4;
+}
+
+message CancelBookRequest {
+  int64 userId = 1;
+  int64 bookId = 2;
+}
+
+message GetBookListRequest {
+  int64 page = 1;
+  int64 pageSize = 2;
+  int64 userId = 3;
+}
+
+message GetBookListResponse {
+  repeated Book bookList = 1;
+  int64 pages = 2;
+  int64 totalCount = 3;
+}
+
+message GetBookRequest {
+  int64 userId = 1;
+  int64 bookId = 2;
+}
+
+message GetBookResponse {
+  Book book = 1;
+}
+
+message UpdateBookRequest {
+  int64 userId = 1;
+  Book book = 2;
+}
+
+message Book {
+  int64 id = 1;
+  int64 roomId = 2;
+  string theme = 3;
+  Period period = 4;
 }

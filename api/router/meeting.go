@@ -11,5 +11,11 @@ func InitMeetingRouter(Router *gin.RouterGroup) {
 	{
 		MeetingRouter.GET("/get_room", handler.GetRoomByUser)
 		MeetingRouter.GET("/get_room_list", handler.GetRoomListByUser)
+
+		MeetingRouter.POST("/book_room", handler.BookRoomByUser)
+		MeetingRouter.GET("/get_book_list", handler.GetBookListByUser)
+		MeetingRouter.GET("/get_book", handler.GetBookByUser)
+		MeetingRouter.DELETE("/cancel_book", handler.CancelBookByUser)
+		MeetingRouter.PUT("/update_book", handler.UpdateBookByUser)
 	}
 }

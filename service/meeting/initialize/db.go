@@ -36,7 +36,7 @@ func InitMySQL() {
 	if err != nil {
 		panic(err)
 	}
-	err = global.DB.AutoMigrate(&model.Room{}, &model.Photo{})
+	err = global.DB.AutoMigrate(&model.Room{}, &model.Photo{}, &model.Book{})
 	if err != nil {
 		panic(err)
 	}

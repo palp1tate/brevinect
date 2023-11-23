@@ -20,6 +20,11 @@ service AdminService {
   rpc DeleteRoom(DeleteRoomRequest) returns (google.protobuf.Empty);
   rpc GetRoom(GetRoomRequest) returns (GetRoomResponse);
   rpc GetRoomList(GetRoomListRequest) returns (GetRoomListResponse);
+
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc GetUserList(GetUserListRequest) returns (GetUserListResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (google.protobuf.Empty);
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty);
 }
 
 message CheckMobileRequest {
@@ -148,4 +153,43 @@ message GetRoomListResponse {
   repeated Room roomList = 1;
   int64 pages = 2;
   int64 totalCount = 3;
+}
+
+message User{
+  int64 id = 1;
+  string username = 2;
+  string mobile = 3;
+  string avatar =4;
+  string face = 5;
+}
+
+message GetUserRequest {
+  int64 id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message GetUserListRequest {
+  int64 page = 1;
+  int64 pageSize = 2;
+  int64 company = 3;
+}
+
+message GetUserListResponse {
+  repeated User userList = 1;
+  int64 pages = 2;
+  int64 totalCount = 3;
+}
+
+message UpdateUserRequest {
+  int64 id = 1;
+  string username = 2;
+  string avatar = 3;
+  string face = 4;
+}
+
+message DeleteUserRequest {
+  int64 id = 1;
 }

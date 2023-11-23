@@ -84,6 +84,7 @@ func (s *UserServer) GetUser(ctx context.Context, req *userProto.GetUserRequest)
 		Mobile:   user.Mobile,
 		Company:  int64(user.CompanyId),
 		Avatar:   user.Avatar,
+		Face:     user.Face,
 	}
 	return res, nil
 }

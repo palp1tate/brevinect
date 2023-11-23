@@ -1390,6 +1390,423 @@ func (x *GetRoomListResponse) GetTotalCount() int64 {
 	return 0
 }
 
+type User struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id       int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Username string `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Mobile   string `protobuf:"bytes,3,opt,name=mobile,proto3" json:"mobile,omitempty"`
+	Avatar   string `protobuf:"bytes,4,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Face     string `protobuf:"bytes,5,opt,name=face,proto3" json:"face,omitempty"`
+}
+
+func (x *User) Reset() {
+	*x = User{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_admin_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *User) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*User) ProtoMessage() {}
+
+func (x *User) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use User.ProtoReflect.Descriptor instead.
+func (*User) Descriptor() ([]byte, []int) {
+	return file_admin_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *User) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *User) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *User) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *User) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *User) GetFace() string {
+	if x != nil {
+		return x.Face
+	}
+	return ""
+}
+
+type GetUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_admin_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_admin_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetUserRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetUserResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	User *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+}
+
+func (x *GetUserResponse) Reset() {
+	*x = GetUserResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_admin_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserResponse) ProtoMessage() {}
+
+func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
+func (*GetUserResponse) Descriptor() ([]byte, []int) {
+	return file_admin_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *GetUserResponse) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type GetUserListRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Page     int64 `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize int64 `protobuf:"varint,2,opt,name=pageSize,proto3" json:"pageSize,omitempty"`
+	Company  int64 `protobuf:"varint,3,opt,name=company,proto3" json:"company,omitempty"`
+}
+
+func (x *GetUserListRequest) Reset() {
+	*x = GetUserListRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_admin_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserListRequest) ProtoMessage() {}
+
+func (x *GetUserListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserListRequest.ProtoReflect.Descriptor instead.
+func (*GetUserListRequest) Descriptor() ([]byte, []int) {
+	return file_admin_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *GetUserListRequest) GetPage() int64 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetUserListRequest) GetPageSize() int64 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *GetUserListRequest) GetCompany() int64 {
+	if x != nil {
+		return x.Company
+	}
+	return 0
+}
+
+type GetUserListResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserList   []*User `protobuf:"bytes,1,rep,name=userList,proto3" json:"userList,omitempty"`
+	Pages      int64   `protobuf:"varint,2,opt,name=pages,proto3" json:"pages,omitempty"`
+	TotalCount int64   `protobuf:"varint,3,opt,name=totalCount,proto3" json:"totalCount,omitempty"`
+}
+
+func (x *GetUserListResponse) Reset() {
+	*x = GetUserListResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_admin_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserListResponse) ProtoMessage() {}
+
+func (x *GetUserListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_proto_msgTypes[27]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserListResponse.ProtoReflect.Descriptor instead.
+func (*GetUserListResponse) Descriptor() ([]byte, []int) {
+	return file_admin_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *GetUserListResponse) GetUserList() []*User {
+	if x != nil {
+		return x.UserList
+	}
+	return nil
+}
+
+func (x *GetUserListResponse) GetPages() int64 {
+	if x != nil {
+		return x.Pages
+	}
+	return 0
+}
+
+func (x *GetUserListResponse) GetTotalCount() int64 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+type UpdateUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id       int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Username string `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Avatar   string `protobuf:"bytes,3,opt,name=avatar,proto3" json:"avatar,omitempty"`
+	Face     string `protobuf:"bytes,4,opt,name=face,proto3" json:"face,omitempty"`
+}
+
+func (x *UpdateUserRequest) Reset() {
+	*x = UpdateUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_admin_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserRequest) ProtoMessage() {}
+
+func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_proto_msgTypes[28]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
+	return file_admin_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *UpdateUserRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateUserRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *UpdateUserRequest) GetAvatar() string {
+	if x != nil {
+		return x.Avatar
+	}
+	return ""
+}
+
+func (x *UpdateUserRequest) GetFace() string {
+	if x != nil {
+		return x.Face
+	}
+	return ""
+}
+
+type DeleteUserRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *DeleteUserRequest) Reset() {
+	*x = DeleteUserRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_admin_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserRequest) ProtoMessage() {}
+
+func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_proto_msgTypes[29]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
+	return file_admin_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *DeleteUserRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
 var File_admin_proto protoreflect.FileDescriptor
 
 var file_admin_proto_rawDesc = []byte{
@@ -1526,7 +1943,43 @@ var file_admin_proto_rawDesc = []byte{
 	0x6f, 0x6f, 0x6d, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x61, 0x67, 0x65, 0x73,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x70, 0x61, 0x67, 0x65, 0x73, 0x12, 0x1e, 0x0a,
 	0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x03, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x32, 0x9d, 0x08,
+	0x03, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x76, 0x0a,
+	0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
+	0x65, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x76, 0x61,
+	0x74, 0x61, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61,
+	0x72, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x61, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x66, 0x61, 0x63, 0x65, 0x22, 0x20, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x22, 0x37, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x55, 0x73,
+	0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x24, 0x0a, 0x04, 0x75, 0x73,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
+	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x04, 0x75, 0x73, 0x65, 0x72,
+	0x22, 0x5e, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61,
+	0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x70, 0x61,
+	0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
+	0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79,
+	0x22, 0x79, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2c, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x4c,
+	0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x61, 0x64, 0x6d, 0x69,
+	0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x08, 0x75, 0x73, 0x65,
+	0x72, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x61, 0x67, 0x65, 0x73, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x70, 0x61, 0x67, 0x65, 0x73, 0x12, 0x1e, 0x0a, 0x0a, 0x74,
+	0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x6b, 0x0a, 0x11, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64,
+	0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x06,
+	0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x76,
+	0x61, 0x74, 0x61, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x61, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x66, 0x61, 0x63, 0x65, 0x22, 0x23, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x32, 0xbb, 0x0a,
 	0x0a, 0x0c, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4e,
 	0x0a, 0x0b, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x4d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x1e, 0x2e,
 	0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x68, 0x65, 0x63, 0x6b,
@@ -1592,9 +2045,27 @@ var file_admin_proto_rawDesc = []byte{
 	0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x6f,
 	0x6d, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x61,
 	0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x6f,
-	0x6d, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x0e, 0x5a,
-	0x0c, 0x2e, 0x3b, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6d, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x42, 0x0a,
+	0x07, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x12, 0x1a, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
+	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x4e, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74,
+	0x12, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65,
+	0x74, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x1f, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65,
+	0x74, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x43, 0x0a, 0x0a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12,
+	0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12, 0x43, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x55, 0x73, 0x65, 0x72, 0x12, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x42, 0x0e, 0x5a, 0x0c, 0x2e,
+	0x3b, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1609,7 +2080,7 @@ func file_admin_proto_rawDescGZIP() []byte {
 	return file_admin_proto_rawDescData
 }
 
-var file_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_admin_proto_goTypes = []interface{}{
 	(*CheckMobileRequest)(nil),     // 0: adminProto.CheckMobileRequest
 	(*CheckMobileResponse)(nil),    // 1: adminProto.CheckMobileResponse
@@ -1634,7 +2105,14 @@ var file_admin_proto_goTypes = []interface{}{
 	(*GetRoomResponse)(nil),        // 20: adminProto.GetRoomResponse
 	(*GetRoomListRequest)(nil),     // 21: adminProto.GetRoomListRequest
 	(*GetRoomListResponse)(nil),    // 22: adminProto.GetRoomListResponse
-	(*emptypb.Empty)(nil),          // 23: google.protobuf.Empty
+	(*User)(nil),                   // 23: adminProto.User
+	(*GetUserRequest)(nil),         // 24: adminProto.GetUserRequest
+	(*GetUserResponse)(nil),        // 25: adminProto.GetUserResponse
+	(*GetUserListRequest)(nil),     // 26: adminProto.GetUserListRequest
+	(*GetUserListResponse)(nil),    // 27: adminProto.GetUserListResponse
+	(*UpdateUserRequest)(nil),      // 28: adminProto.UpdateUserRequest
+	(*DeleteUserRequest)(nil),      // 29: adminProto.DeleteUserRequest
+	(*emptypb.Empty)(nil),          // 30: google.protobuf.Empty
 }
 var file_admin_proto_depIdxs = []int32{
 	8,  // 0: adminProto.UpdateCompanyRequest.company:type_name -> adminProto.Company
@@ -1643,39 +2121,49 @@ var file_admin_proto_depIdxs = []int32{
 	16, // 3: adminProto.UpdateRoomRequest.room:type_name -> adminProto.Room
 	16, // 4: adminProto.GetRoomResponse.room:type_name -> adminProto.Room
 	16, // 5: adminProto.GetRoomListResponse.roomList:type_name -> adminProto.Room
-	0,  // 6: adminProto.AdminService.CheckMobile:input_type -> adminProto.CheckMobileRequest
-	2,  // 7: adminProto.AdminService.LoginByPassword:input_type -> adminProto.LoginByPasswordRequest
-	3,  // 8: adminProto.AdminService.LoginBySMS:input_type -> adminProto.LoginBySMSRequest
-	5,  // 9: adminProto.AdminService.GetAdmin:input_type -> adminProto.GetAdminRequest
-	7,  // 10: adminProto.AdminService.AddCompany:input_type -> adminProto.AddCompanyRequest
-	9,  // 11: adminProto.AdminService.UpdateCompany:input_type -> adminProto.UpdateCompanyRequest
-	10, // 12: adminProto.AdminService.DeleteCompany:input_type -> adminProto.DeleteCompanyRequest
-	11, // 13: adminProto.AdminService.GetCompany:input_type -> adminProto.GetCompanyRequest
-	13, // 14: adminProto.AdminService.GetCompanyList:input_type -> adminProto.GetCompanyListRequest
-	15, // 15: adminProto.AdminService.AddRoom:input_type -> adminProto.AddRoomRequest
-	17, // 16: adminProto.AdminService.UpdateRoom:input_type -> adminProto.UpdateRoomRequest
-	18, // 17: adminProto.AdminService.DeleteRoom:input_type -> adminProto.DeleteRoomRequest
-	19, // 18: adminProto.AdminService.GetRoom:input_type -> adminProto.GetRoomRequest
-	21, // 19: adminProto.AdminService.GetRoomList:input_type -> adminProto.GetRoomListRequest
-	1,  // 20: adminProto.AdminService.CheckMobile:output_type -> adminProto.CheckMobileResponse
-	4,  // 21: adminProto.AdminService.LoginByPassword:output_type -> adminProto.LoginResponse
-	4,  // 22: adminProto.AdminService.LoginBySMS:output_type -> adminProto.LoginResponse
-	6,  // 23: adminProto.AdminService.GetAdmin:output_type -> adminProto.GetAdminResponse
-	23, // 24: adminProto.AdminService.AddCompany:output_type -> google.protobuf.Empty
-	23, // 25: adminProto.AdminService.UpdateCompany:output_type -> google.protobuf.Empty
-	23, // 26: adminProto.AdminService.DeleteCompany:output_type -> google.protobuf.Empty
-	12, // 27: adminProto.AdminService.GetCompany:output_type -> adminProto.GetCompanyResponse
-	14, // 28: adminProto.AdminService.GetCompanyList:output_type -> adminProto.GetCompanyListResponse
-	23, // 29: adminProto.AdminService.AddRoom:output_type -> google.protobuf.Empty
-	23, // 30: adminProto.AdminService.UpdateRoom:output_type -> google.protobuf.Empty
-	23, // 31: adminProto.AdminService.DeleteRoom:output_type -> google.protobuf.Empty
-	20, // 32: adminProto.AdminService.GetRoom:output_type -> adminProto.GetRoomResponse
-	22, // 33: adminProto.AdminService.GetRoomList:output_type -> adminProto.GetRoomListResponse
-	20, // [20:34] is the sub-list for method output_type
-	6,  // [6:20] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	23, // 6: adminProto.GetUserResponse.user:type_name -> adminProto.User
+	23, // 7: adminProto.GetUserListResponse.userList:type_name -> adminProto.User
+	0,  // 8: adminProto.AdminService.CheckMobile:input_type -> adminProto.CheckMobileRequest
+	2,  // 9: adminProto.AdminService.LoginByPassword:input_type -> adminProto.LoginByPasswordRequest
+	3,  // 10: adminProto.AdminService.LoginBySMS:input_type -> adminProto.LoginBySMSRequest
+	5,  // 11: adminProto.AdminService.GetAdmin:input_type -> adminProto.GetAdminRequest
+	7,  // 12: adminProto.AdminService.AddCompany:input_type -> adminProto.AddCompanyRequest
+	9,  // 13: adminProto.AdminService.UpdateCompany:input_type -> adminProto.UpdateCompanyRequest
+	10, // 14: adminProto.AdminService.DeleteCompany:input_type -> adminProto.DeleteCompanyRequest
+	11, // 15: adminProto.AdminService.GetCompany:input_type -> adminProto.GetCompanyRequest
+	13, // 16: adminProto.AdminService.GetCompanyList:input_type -> adminProto.GetCompanyListRequest
+	15, // 17: adminProto.AdminService.AddRoom:input_type -> adminProto.AddRoomRequest
+	17, // 18: adminProto.AdminService.UpdateRoom:input_type -> adminProto.UpdateRoomRequest
+	18, // 19: adminProto.AdminService.DeleteRoom:input_type -> adminProto.DeleteRoomRequest
+	19, // 20: adminProto.AdminService.GetRoom:input_type -> adminProto.GetRoomRequest
+	21, // 21: adminProto.AdminService.GetRoomList:input_type -> adminProto.GetRoomListRequest
+	24, // 22: adminProto.AdminService.GetUser:input_type -> adminProto.GetUserRequest
+	26, // 23: adminProto.AdminService.GetUserList:input_type -> adminProto.GetUserListRequest
+	28, // 24: adminProto.AdminService.UpdateUser:input_type -> adminProto.UpdateUserRequest
+	29, // 25: adminProto.AdminService.DeleteUser:input_type -> adminProto.DeleteUserRequest
+	1,  // 26: adminProto.AdminService.CheckMobile:output_type -> adminProto.CheckMobileResponse
+	4,  // 27: adminProto.AdminService.LoginByPassword:output_type -> adminProto.LoginResponse
+	4,  // 28: adminProto.AdminService.LoginBySMS:output_type -> adminProto.LoginResponse
+	6,  // 29: adminProto.AdminService.GetAdmin:output_type -> adminProto.GetAdminResponse
+	30, // 30: adminProto.AdminService.AddCompany:output_type -> google.protobuf.Empty
+	30, // 31: adminProto.AdminService.UpdateCompany:output_type -> google.protobuf.Empty
+	30, // 32: adminProto.AdminService.DeleteCompany:output_type -> google.protobuf.Empty
+	12, // 33: adminProto.AdminService.GetCompany:output_type -> adminProto.GetCompanyResponse
+	14, // 34: adminProto.AdminService.GetCompanyList:output_type -> adminProto.GetCompanyListResponse
+	30, // 35: adminProto.AdminService.AddRoom:output_type -> google.protobuf.Empty
+	30, // 36: adminProto.AdminService.UpdateRoom:output_type -> google.protobuf.Empty
+	30, // 37: adminProto.AdminService.DeleteRoom:output_type -> google.protobuf.Empty
+	20, // 38: adminProto.AdminService.GetRoom:output_type -> adminProto.GetRoomResponse
+	22, // 39: adminProto.AdminService.GetRoomList:output_type -> adminProto.GetRoomListResponse
+	25, // 40: adminProto.AdminService.GetUser:output_type -> adminProto.GetUserResponse
+	27, // 41: adminProto.AdminService.GetUserList:output_type -> adminProto.GetUserListResponse
+	30, // 42: adminProto.AdminService.UpdateUser:output_type -> google.protobuf.Empty
+	30, // 43: adminProto.AdminService.DeleteUser:output_type -> google.protobuf.Empty
+	26, // [26:44] is the sub-list for method output_type
+	8,  // [8:26] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_admin_proto_init() }
@@ -1960,6 +2448,90 @@ func file_admin_proto_init() {
 				return nil
 			}
 		}
+		file_admin_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*User); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_admin_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_admin_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_admin_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_admin_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_admin_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_admin_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1967,7 +2539,7 @@ func file_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   23,
+			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -24,5 +24,10 @@ func InitAdminRouter(Router *gin.RouterGroup) {
 		AdminRouter.PUT("/update_room", middleware.JWTAuth(), middleware.AdminAuth(), handler.UpdateRoom)
 		AdminRouter.DELETE("/delete_room", middleware.JWTAuth(), middleware.AdminAuth(), handler.DeleteRoom)
 
+		AdminRouter.GET("/get_user", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetUserByAdmin)
+		AdminRouter.GET("/get_user_list", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetUserListByAdmin)
+		AdminRouter.PUT("/update_user", middleware.JWTAuth(), middleware.AdminAuth(), handler.UpdateUserByAdmin)
+		AdminRouter.DELETE("/delete_user", middleware.JWTAuth(), middleware.AdminAuth(), handler.DeleteUser)
+
 	}
 }

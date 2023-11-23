@@ -16,7 +16,7 @@ type RegisterForm struct {
 	Code     string `form:"code" json:"code" binding:"required,len=6"`
 }
 
-type UpdateUserForm struct {
+type UpdateUserFormByUser struct {
 	Username string `form:"username" json:"username" binding:"required,min=1,max=10"`
 	Avatar   string `form:"avatar" json:"avatar" binding:"required,url"`
 	Face     string `form:"face" json:"face" binding:"required,url"`

@@ -325,5 +325,87 @@ func DeleteRoom(c *gin.Context) {
 	refreshedToken, _ := j.RefreshToken(token)
 	HandleHttpResponse(c, http.StatusOK, "删除会议室成功", refreshedToken, nil)
 	return
+}
 
+func GetUserByAdmin(c *gin.Context) {
+	userId, _ := strconv.ParseInt(c.Query("uid"), 10, 64)
+	if userId == 0 {
+		HandleHttpResponse(c, http.StatusBadRequest, "uid不能为空", nil, nil)
+		return
+	}
+	res, err := global.AdminServiceClient.GetUser(context.Background(), &adminProto.GetUserRequest{
+		Id: userId,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "获取用户信息成功", refreshedToken, res.User)
+	return
+}
+
+func GetUserListByAdmin(c *gin.Context) {
+	company, _ := strconv.ParseInt(c.Query("cid"), 10, 64)
+	if company == 0 {
+		HandleHttpResponse(c, http.StatusBadRequest, "cid不能为空", nil, nil)
+		return
+	}
+	page, pageSize := util.ParsePageAndPageSize(c.Query("page"), c.Query("pageSize"))
+	res, err := global.AdminServiceClient.GetUserList(context.Background(), &adminProto.GetUserListRequest{
+		Page:     int64(page),
+		PageSize: int64(pageSize),
+		Company:  company,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "获取用户列表成功", refreshedToken, res)
+	return
+}
+
+func UpdateUserByAdmin(c *gin.Context) {
+	updateUserForm := form.UpdateUserFormByAdmin{}
+	if err := c.ShouldBind(&updateUserForm); err != nil {
+		HandleValidatorError(c, err)
+		return
+	}
+	_, err := global.AdminServiceClient.UpdateUser(context.Background(), &adminProto.UpdateUserRequest{
+		Id:       int64(updateUserForm.Id),
+		Username: updateUserForm.Username,
+		Avatar:   updateUserForm.Avatar,
+		Face:     updateUserForm.Face,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "更新用户信息成功", refreshedToken, nil)
+	return
+}
+
+func DeleteUser(c *gin.Context) {
+	userId, _ := strconv.ParseInt(c.Query("uid"), 10, 64)
+	if userId == 0 {
+		HandleHttpResponse(c, http.StatusBadRequest, "uid不能为空", nil, nil)
+		return
+	}
+	_, err := global.AdminServiceClient.DeleteUser(context.Background(), &adminProto.DeleteUserRequest{
+		Id: userId,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	HandleHttpResponse(c, http.StatusOK, "删除用户成功", nil, nil)
+	return
 }

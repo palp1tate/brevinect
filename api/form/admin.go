@@ -38,3 +38,10 @@ type UpdateRoomForm struct {
 	Facility string   `form:"facility" json:"facility" binding:"required"`
 	Photo    []string `form:"photo" json:"photo" binding:"required,dive"`
 }
+
+type UpdateUserFormByAdmin struct {
+	Id       int    `form:"id" json:"id" binding:"required"`
+	Username string `form:"username" json:"username" binding:"required,min=1,max=10"`
+	Avatar   string `form:"avatar" json:"avatar" binding:"required,url"`
+	Face     string `form:"face" json:"face" binding:"required,url"`
+}
