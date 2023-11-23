@@ -4,9 +4,9 @@ package adminProto;
 option go_package = ".;adminProto";
 
 service AdminService {
-  rpc CheckMobile(CheckMobileRequest) returns (CheckMobileResponse) {}
+  rpc CheckMobile(CheckMobileRequest) returns (CheckMobileResponse);
   rpc LoginByPassword(LoginByPasswordRequest) returns (LoginResponse);
-  rpc LoginBySMS(LoginBySMSRequest) returns (LoginResponse) {}
+  rpc LoginBySMS(LoginBySMSRequest) returns (LoginResponse);
   rpc GetAdmin(GetAdminRequest) returns (GetAdminResponse);
 
   rpc AddCompany(AddCompanyRequest) returns (google.protobuf.Empty);
@@ -14,6 +14,12 @@ service AdminService {
   rpc DeleteCompany(DeleteCompanyRequest) returns (google.protobuf.Empty);
   rpc GetCompany(GetCompanyRequest) returns (GetCompanyResponse);
   rpc GetCompanyList(GetCompanyListRequest) returns (GetCompanyListResponse);
+
+  rpc AddRoom(AddRoomRequest) returns (google.protobuf.Empty);
+  rpc UpdateRoom(UpdateRoomRequest) returns (google.protobuf.Empty);
+  rpc DeleteRoom(DeleteRoomRequest) returns (google.protobuf.Empty);
+  rpc GetRoom(GetRoomRequest) returns (GetRoomResponse);
+  rpc GetRoomList(GetRoomListRequest) returns (GetRoomListResponse);
 }
 
 message CheckMobileRequest {
@@ -94,6 +100,52 @@ message GetCompanyListRequest {
 
 message GetCompanyListResponse {
   repeated Company companyList = 1;
+  int64 pages = 2;
+  int64 totalCount = 3;
+}
+
+message AddRoomRequest {
+  int64 company = 1;
+  string name = 2;
+  string location = 3;
+  int64 capacity = 4;
+  string facility = 5;
+  repeated string photo = 6;
+}
+
+message Room {
+  int64 id = 1;
+  string name = 2;
+  string location = 3;
+  int64 capacity = 4;
+  string facility = 5;
+  repeated string photo = 6;
+}
+
+message UpdateRoomRequest {
+  Room room = 1;
+}
+
+message DeleteRoomRequest {
+  int64 id = 1;
+}
+
+message GetRoomRequest {
+  int64 id = 1;
+}
+
+message GetRoomResponse {
+  Room room = 1;
+}
+
+message GetRoomListRequest {
+  int64 page = 1;
+  int64 pageSize = 2;
+  int64 company = 3;
+}
+
+message GetRoomListResponse {
+  repeated Room roomList = 1;
   int64 pages = 2;
   int64 totalCount = 3;
 }

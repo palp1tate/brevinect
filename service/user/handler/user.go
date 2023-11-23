@@ -108,6 +108,7 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *userProto.UpdateUserRe
 	}
 	user.Username = req.Username
 	user.Avatar = req.Avatar
+	user.Face = req.Face
 	err = dao.UpdateUser(user)
 	if err != nil {
 		return nil, status.Error(codes.Internal, "更新用户信息失败")
@@ -128,6 +129,48 @@ func (s *UserServer) GetAllCompany(ctx context.Context, req *empty.Empty) (*user
 		Companies: companyList,
 	}
 	return res, nil
+}
+
+func (s *UserServer) GetCompany(ctx context.Context, req *userProto.GetCompanyRequest) (*userProto.GetCompanyResponse, error) {
+	company, err := dao.FindCompanyById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该公司不存在")
+	}
+	res := &userProto.GetCompanyResponse{
+		Id:             int64(company.ID),
+		Name:           company.Name,
+		Address:        company.Address,
+		OfficialMobile: company.OfficialMobile,
+		OfficialSite:   company.OfficialSite,
+		CompanyType:    company.CompanyType,
+		Introduction:   company.Introduction,
+		Picture:        company.Picture,
+	}
+	return res, nil
+}
+
+func (s *UserServer) UploadFace(ctx context.Context, req *userProto.UploadFaceRequest) (*empty.Empty, error) {
+	user, err := dao.FindUserById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该用户不存在")
+	}
+	user.Face = req.Url
+	err = dao.UpdateUser(user)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "上传人脸失败")
+	}
+	return &empty.Empty{}, nil
+}
+
+func (s *UserServer) CheckFace(ctx context.Context, req *userProto.CheckFaceRequest) (*empty.Empty, error) {
+	user, err := dao.FindUserById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该用户不存在")
+	}
+	if user.Face == "" {
+		return nil, status.Error(codes.Internal, "该用户未上传人脸")
+	}
+	return &empty.Empty{}, nil
 }
 
 func CompanyModelToResponse(company model.Company) *userProto.Company {

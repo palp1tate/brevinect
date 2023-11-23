@@ -12,5 +12,6 @@ type User struct {
 	CompanyId int     `gorm:"not null"`
 	Company   Company `gorm:"foreignKey:CompanyId;AssociationForeignKey:ID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	Avatar    string  `gorm:"not null;default:http://s42es6gy4.hn-bkt.clouddn.com/avatar.jpg"`
+	Face      string  `gorm:"null"`
 	Role      int     `gorm:"not null;default:1;check: role in(1,2)"` // 1:普通用户 2:管理员
 }

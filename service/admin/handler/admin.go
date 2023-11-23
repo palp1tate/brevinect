@@ -7,6 +7,7 @@ import (
 	"github.com/palp1tate/brevinect/model"
 	"github.com/palp1tate/brevinect/proto/admin"
 	"github.com/palp1tate/brevinect/service/admin/dao"
+	"github.com/palp1tate/go-crypto-guard/pbkdf2"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -43,7 +44,7 @@ func (s *AdminServer) LoginByPassword(ctx context.Context, req *adminProto.Login
 	if err != nil {
 		return nil, status.Error(codes.NotFound, "非管理员账户")
 	}
-	if admin.Password != req.Password {
+	if ok, _ := pwd.VerifySHA512(req.Password, admin.Password); !ok {
 		return nil, status.Errorf(codes.Unauthenticated, "密码错误")
 	}
 	res := &adminProto.LoginResponse{
@@ -148,6 +149,77 @@ func (s *AdminServer) GetCompanyList(ctx context.Context, req *adminProto.GetCom
 	return res, nil
 }
 
+func (s *AdminServer) AddRoom(ctx context.Context, req *adminProto.AddRoomRequest) (*empty.Empty, error) {
+	room := model.Room{
+		Name:      req.Name,
+		CompanyId: int(req.Company),
+		Capacity:  int(req.Capacity),
+		Facility:  req.Facility,
+		Location:  req.Location,
+	}
+	err := dao.CreateRoom(&room, req.Photo)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "新增会议室失败")
+	}
+	return &empty.Empty{}, nil
+}
+
+func (s *AdminServer) UpdateRoom(ctx context.Context, req *adminProto.UpdateRoomRequest) (*empty.Empty, error) {
+	room, err := dao.FindRoomById(int(req.Room.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该会议室不存在")
+	}
+	room.Name = req.Room.Name
+	room.Capacity = int(req.Room.Capacity)
+	room.Facility = req.Room.Facility
+	room.Location = req.Room.Location
+	err = dao.UpdateRoom(room, req.Room.Photo)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "更新会议室信息失败")
+	}
+	return &empty.Empty{}, nil
+}
+
+func (s *AdminServer) DeleteRoom(ctx context.Context, req *adminProto.DeleteRoomRequest) (*empty.Empty, error) {
+	room, err := dao.FindRoomById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该会议室不存在")
+	}
+	err = dao.DeleteRoom(room)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "删除会议室失败")
+	}
+	return &empty.Empty{}, nil
+}
+
+func (s *AdminServer) GetRoom(ctx context.Context, req *adminProto.GetRoomRequest) (*adminProto.GetRoomResponse, error) {
+	room, err := dao.FindRoomById(int(req.Id))
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "该会议室不存在")
+	}
+	res := &adminProto.GetRoomResponse{
+		Room: RoomModelToResponse(room),
+	}
+	return res, nil
+}
+
+func (s *AdminServer) GetRoomList(ctx context.Context, req *adminProto.GetRoomListRequest) (*adminProto.GetRoomListResponse, error) {
+	rooms, pages, totalCount, err := dao.FindRoomList(req.Page, req.PageSize, req.Company)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "获取会议室列表失败")
+	}
+	roomList := make([]*adminProto.Room, len(rooms))
+	for i, room := range rooms {
+		roomList[i] = RoomModelToResponse(room)
+	}
+	res := &adminProto.GetRoomListResponse{
+		RoomList:   roomList,
+		Pages:      pages,
+		TotalCount: totalCount,
+	}
+	return res, nil
+}
+
 func CompanyModelToResponse(company model.Company) *adminProto.Company {
 	return &adminProto.Company{
 		Id:             int64(company.ID),
@@ -158,5 +230,21 @@ func CompanyModelToResponse(company model.Company) *adminProto.Company {
 		CompanyType:    company.CompanyType,
 		Introduction:   company.Introduction,
 		Picture:        company.Picture,
+	}
+}
+
+func RoomModelToResponse(room model.Room) *adminProto.Room {
+	photos, _ := dao.FindRoomPhoto(int(room.ID))
+	photoList := make([]string, len(photos))
+	for i, photo := range photos {
+		photoList[i] = photo.Url
+	}
+	return &adminProto.Room{
+		Id:       int64(room.ID),
+		Name:     room.Name,
+		Capacity: int64(room.Capacity),
+		Facility: room.Facility,
+		Location: room.Location,
+		Photo:    photoList,
 	}
 }

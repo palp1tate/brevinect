@@ -24,5 +24,6 @@ func Router() *gin.Engine {
 	router.InitThirdPartyRouter(ApiGroup)
 	router.InitUserRouter(ApiGroup)
 	router.InitAdminRouter(ApiGroup)
+	router.InitMeetingRouter(ApiGroup)
 	return r
 }

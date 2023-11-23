@@ -12,11 +12,17 @@ func InitAdminRouter(Router *gin.RouterGroup) {
 		AdminRouter.POST("/login", handler.AdminLogin)
 		AdminRouter.GET("/get_admin", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetAdmin)
 
-		AdminRouter.GET("/get_company", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetCompany)
+		AdminRouter.GET("/get_company", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetCompanyByAdmin)
 		AdminRouter.GET("/get_company_list", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetCompanyList)
 		AdminRouter.POST("/add_company", middleware.JWTAuth(), middleware.AdminAuth(), handler.AddCompany)
 		AdminRouter.PUT("/update_company", middleware.JWTAuth(), middleware.AdminAuth(), handler.UpdateCompany)
 		AdminRouter.DELETE("/delete_company", middleware.JWTAuth(), middleware.AdminAuth(), handler.DeleteCompany)
+
+		AdminRouter.GET("/get_room", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetRoomByAdmin)
+		AdminRouter.GET("/get_room_list", middleware.JWTAuth(), middleware.AdminAuth(), handler.GetRoomListByAdmin)
+		AdminRouter.POST("/add_room", middleware.JWTAuth(), middleware.AdminAuth(), handler.AddRoom)
+		AdminRouter.PUT("/update_room", middleware.JWTAuth(), middleware.AdminAuth(), handler.UpdateRoom)
+		AdminRouter.DELETE("/delete_room", middleware.JWTAuth(), middleware.AdminAuth(), handler.DeleteRoom)
 
 	}
 }

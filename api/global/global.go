@@ -4,6 +4,7 @@ import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/palp1tate/brevinect/api/config"
 	"github.com/palp1tate/brevinect/proto/admin"
+	"github.com/palp1tate/brevinect/proto/meeting"
 	"github.com/palp1tate/brevinect/proto/third"
 	"github.com/palp1tate/brevinect/proto/user"
 )
@@ -19,5 +20,6 @@ var (
 
 	UserServiceClient       userProto.UserServiceClient
 	AdminServiceClient      adminProto.AdminServiceClient
+	MeetingServiceClient    meetingProto.MeetingServiceClient
 	ThirdPartyServiceClient thirdProto.ThirdPartyServiceClient
 )

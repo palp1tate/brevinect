@@ -11,8 +11,10 @@ service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
   rpc ResetPassword(ResetPasswordRequest) returns (google.protobuf.Empty) {}
   rpc UpdateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
-
+  rpc UploadFace(UploadFaceRequest)returns (google.protobuf.Empty){}
+  rpc CheckFace(CheckFaceRequest)returns (google.protobuf.Empty){}
   rpc GetAllCompany(google.protobuf.Empty) returns (GetAllCompanyResponse) {}
+  rpc GetCompany(GetCompanyRequest) returns (GetCompanyResponse) {}
 }
 
 message CheckMobileRequest {
@@ -70,6 +72,7 @@ message UpdateUserRequest{
   int64 id = 1;
   string username = 2;
   string avatar = 3;
+  string face = 4;
 }
 
 message Company{
@@ -79,4 +82,28 @@ message Company{
 
 message GetAllCompanyResponse{
   repeated Company companies = 1;
+}
+
+message GetCompanyRequest{
+  int64 id = 1;
+}
+
+message GetCompanyResponse{
+  int64 id = 1;
+  string name = 2;
+  string address = 3;
+  string officialMobile = 4;
+  string officialSite = 5;
+  string companyType = 6;
+  string Introduction = 7;
+  string Picture = 8;
+}
+
+message UploadFaceRequest{
+  int64 id = 1;
+  string url = 2;
+}
+
+message CheckFaceRequest{
+  int64 id = 1;
 }

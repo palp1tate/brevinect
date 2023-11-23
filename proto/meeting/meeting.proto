@@ -1,0 +1,37 @@
+syntax = "proto3";
+package meetingProto;
+option go_package = ".;meetingProto";
+
+service MeetingService {
+  rpc GetRoom(GetRoomRequest) returns (GetRoomResponse);
+  rpc GetRoomList(GetRoomListRequest) returns (GetRoomListResponse);
+}
+
+message Room {
+  int64 id = 1;
+  string name = 2;
+  string location = 3;
+  int64 capacity = 4;
+  string facility = 5;
+  repeated string photo = 6;
+}
+
+message GetRoomRequest {
+  int64 id = 1;
+}
+
+message GetRoomResponse {
+  Room room = 1;
+}
+
+message GetRoomListRequest {
+  int64 page = 1;
+  int64 pageSize = 2;
+  int64 company = 3;
+}
+
+message GetRoomListResponse {
+  repeated Room roomList = 1;
+  int64 pages = 2;
+  int64 totalCount = 3;
+}

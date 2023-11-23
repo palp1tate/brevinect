@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"fmt"
+	meetingProto "github.com/palp1tate/brevinect/proto/meeting"
 	"sync"
 
 	_ "github.com/mbobakov/grpc-consul-resolver"
@@ -17,7 +18,7 @@ import (
 func InitServiceConn() {
 	consul := global.ServerConfig.Consul
 	var wg sync.WaitGroup
-	wg.Add(3)
+	wg.Add(4)
 
 	go func() {
 		defer wg.Done()
@@ -47,6 +48,21 @@ func InitServiceConn() {
 		}
 		adminServiceClient := adminProto.NewAdminServiceClient(adminConn)
 		global.AdminServiceClient = adminServiceClient
+	}()
+
+	go func() {
+		defer wg.Done()
+		meetingConn, err := grpc.Dial(
+			fmt.Sprintf("consul://%s:%d/%s?wait=14s",
+				consul.Host, consul.Port, global.ServerConfig.Service.Meeting),
+			grpc.WithTransportCredentials(insecure.NewCredentials()),
+			grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
+		)
+		if err != nil {
+			zap.S().Fatal("连接会议服务失败")
+		}
+		meetingServiceClient := meetingProto.NewMeetingServiceClient(meetingConn)
+		global.MeetingServiceClient = meetingServiceClient
 	}()
 
 	go func() {

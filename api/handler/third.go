@@ -5,6 +5,7 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/ptypes/empty"
@@ -141,7 +142,7 @@ func UploadFile(c *gin.Context) {
 	res, err := global.ThirdPartyServiceClient.UploadFile(context.Background(), &thirdProto.UploadFileRequest{
 		Data:   buffer.Bytes(),
 		Size:   header.Size,
-		Suffix: header.Filename,
+		Suffix: filepath.Ext(header.Filename),
 	})
 	if err != nil {
 		HandleGrpcErrorToHttp(c, err)

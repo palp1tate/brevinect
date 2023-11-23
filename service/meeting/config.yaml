@@ -3,5 +3,5 @@ port: 8848
 namespace: '7c2d9a17-ed59-4c7e-9399-20bad91b4a67'
 user: 'nacos'
 password: 'nacos'
-dataId: 'brevinect-api.json'
+dataId: 'MeetingService.json'
 group: 'dev'

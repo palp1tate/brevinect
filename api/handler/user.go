@@ -4,14 +4,12 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/golang/protobuf/ptypes/empty"
-
-	"github.com/palp1tate/brevinect/consts"
-
 	"github.com/gin-gonic/gin"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/palp1tate/brevinect/api/form"
 	"github.com/palp1tate/brevinect/api/global"
 	"github.com/palp1tate/brevinect/api/middleware"
+	"github.com/palp1tate/brevinect/consts"
 	"github.com/palp1tate/brevinect/proto/third"
 	"github.com/palp1tate/brevinect/proto/user"
 )
@@ -142,6 +140,7 @@ func GetUser(c *gin.Context) {
 		"username": res.Username,
 		"mobile":   res.Mobile,
 		"company":  res.Company,
+		"avatar":   res.Avatar,
 	})
 	return
 }
@@ -169,10 +168,7 @@ func ResetPassword(c *gin.Context) {
 		HandleGrpcErrorToHttp(c, err)
 		return
 	}
-	token := c.GetString("token")
-	j := middleware.NewJWT()
-	refreshedToken, _ := j.RefreshToken(token)
-	HandleHttpResponse(c, http.StatusOK, "重置密码成功", refreshedToken, nil)
+	HandleHttpResponse(c, http.StatusOK, "重置密码成功", nil, nil)
 	return
 }
 
@@ -187,6 +183,7 @@ func UpdateUser(c *gin.Context) {
 		Id:       int64(userId),
 		Username: updateUserForm.Username,
 		Avatar:   updateUserForm.Avatar,
+		Face:     updateUserForm.Face,
 	})
 	if err != nil {
 		HandleGrpcErrorToHttp(c, err)
@@ -206,5 +203,58 @@ func GetAllCompany(c *gin.Context) {
 		return
 	}
 	HandleHttpResponse(c, http.StatusOK, "获取所有公司成功", nil, res.Companies)
+	return
+}
+
+func GetCompanyByUser(c *gin.Context) {
+	cid := c.GetInt("company")
+	res, err := global.UserServiceClient.GetCompany(context.Background(), &userProto.GetCompanyRequest{
+		Id: int64(cid),
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "获取公司信息成功", refreshedToken, res)
+}
+
+func UploadFace(c *gin.Context) {
+	urlForm := form.UrlForm{}
+	if err := c.ShouldBind(&urlForm); err != nil {
+		HandleValidatorError(c, err)
+		return
+	}
+	userId := c.GetInt("id")
+	_, err := global.UserServiceClient.UploadFace(context.Background(), &userProto.UploadFaceRequest{
+		Id:  int64(userId),
+		Url: urlForm.Url,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "上传人脸成功", refreshedToken, nil)
+	return
+}
+
+func CheckFace(c *gin.Context) {
+	userId := c.GetInt("id")
+	_, err := global.UserServiceClient.CheckFace(context.Background(), &userProto.CheckFaceRequest{
+		Id: int64(userId),
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "该用户已上传人脸", refreshedToken, nil)
 	return
 }

@@ -12,9 +12,12 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		UserRouter.POST("/register", handler.Register)
 		UserRouter.POST("/login", handler.UserLogin)
 		UserRouter.GET("/get_user", middleware.JWTAuth(), handler.GetUser)
-		UserRouter.PUT("/reset_password", middleware.JWTAuth(), handler.ResetPassword)
+		UserRouter.PUT("/reset_password", handler.ResetPassword)
 		UserRouter.PUT("/update_user", middleware.JWTAuth(), handler.UpdateUser)
+		UserRouter.POST("/upload_face", middleware.JWTAuth(), handler.UploadFace)
+		UserRouter.GET("check_face", middleware.JWTAuth(), handler.CheckFace)
 
 		UserRouter.GET("get_all_company", handler.GetAllCompany)
+		UserRouter.GET("get_company", middleware.JWTAuth(), handler.GetCompanyByUser)
 	}
 }

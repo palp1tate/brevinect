@@ -19,6 +19,7 @@ type RegisterForm struct {
 type UpdateUserForm struct {
 	Username string `form:"username" json:"username" binding:"required,min=1,max=10"`
 	Avatar   string `form:"avatar" json:"avatar" binding:"required,url"`
+	Face     string `form:"face" json:"face" binding:"required,url"`
 }
 
 type UrlForm struct {

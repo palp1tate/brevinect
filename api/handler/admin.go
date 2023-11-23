@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/palp1tate/brevinect/util"
-
 	"github.com/gin-gonic/gin"
 	"github.com/palp1tate/brevinect/api/form"
 	"github.com/palp1tate/brevinect/api/global"
@@ -14,6 +12,7 @@ import (
 	"github.com/palp1tate/brevinect/consts"
 	"github.com/palp1tate/brevinect/proto/admin"
 	"github.com/palp1tate/brevinect/proto/third"
+	"github.com/palp1tate/brevinect/util"
 )
 
 func AdminLogin(c *gin.Context) {
@@ -101,7 +100,7 @@ func GetAdmin(c *gin.Context) {
 	return
 }
 
-func GetCompany(c *gin.Context) {
+func GetCompanyByAdmin(c *gin.Context) {
 	companyId, _ := strconv.ParseInt(c.Query("cid"), 10, 64)
 	if companyId == 0 {
 		HandleHttpResponse(c, http.StatusBadRequest, "cid不能为空", nil, nil)
@@ -210,4 +209,121 @@ func DeleteCompany(c *gin.Context) {
 	refreshedToken, _ := j.RefreshToken(token)
 	HandleHttpResponse(c, http.StatusOK, "删除公司成功", refreshedToken, nil)
 	return
+}
+
+func GetRoomByAdmin(c *gin.Context) {
+	roomId, _ := strconv.ParseInt(c.Query("rid"), 10, 64)
+	if roomId == 0 {
+		HandleHttpResponse(c, http.StatusBadRequest, "rid不能为空", nil, nil)
+		return
+	}
+	res, err := global.AdminServiceClient.GetRoom(context.Background(), &adminProto.GetRoomRequest{
+		Id: roomId,
+	})
+
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "获取会议室信息成功", refreshedToken, res.Room)
+	return
+}
+
+func GetRoomListByAdmin(c *gin.Context) {
+	company, _ := strconv.ParseInt(c.Query("cid"), 10, 64)
+	if company == 0 {
+		HandleHttpResponse(c, http.StatusBadRequest, "cid不能为空", nil, nil)
+		return
+	}
+	page, pageSize := util.ParsePageAndPageSize(c.Query("page"), c.Query("pageSize"))
+	res, err := global.AdminServiceClient.GetRoomList(context.Background(), &adminProto.GetRoomListRequest{
+		Page:     int64(page),
+		PageSize: int64(pageSize),
+		Company:  company,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "获取会议室列表成功", refreshedToken, res)
+	return
+}
+
+func AddRoom(c *gin.Context) {
+	addRoomForm := form.AddRoomForm{}
+	if err := c.ShouldBind(&addRoomForm); err != nil {
+		HandleValidatorError(c, err)
+		return
+	}
+	_, err := global.AdminServiceClient.AddRoom(context.Background(), &adminProto.AddRoomRequest{
+		Name:     addRoomForm.Name,
+		Company:  int64(addRoomForm.Cid),
+		Capacity: int64(addRoomForm.Capacity),
+		Facility: addRoomForm.Facility,
+		Location: addRoomForm.Location,
+		Photo:    addRoomForm.Photo,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "新增会议室成功", refreshedToken, nil)
+	return
+}
+
+func UpdateRoom(c *gin.Context) {
+	updateRoomForm := form.UpdateRoomForm{}
+	if err := c.ShouldBind(&updateRoomForm); err != nil {
+		HandleValidatorError(c, err)
+		return
+	}
+	_, err := global.AdminServiceClient.UpdateRoom(context.Background(), &adminProto.UpdateRoomRequest{
+		Room: &adminProto.Room{
+			Id:       int64(updateRoomForm.Id),
+			Name:     updateRoomForm.Name,
+			Capacity: int64(updateRoomForm.Capacity),
+			Facility: updateRoomForm.Facility,
+			Location: updateRoomForm.Location,
+			Photo:    updateRoomForm.Photo,
+		},
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "更新会议室信息成功", refreshedToken, nil)
+	return
+}
+
+func DeleteRoom(c *gin.Context) {
+	roomId, _ := strconv.ParseInt(c.Query("rid"), 10, 64)
+	if roomId == 0 {
+		HandleHttpResponse(c, http.StatusBadRequest, "rid不能为空", nil, nil)
+		return
+	}
+	_, err := global.AdminServiceClient.DeleteRoom(context.Background(), &adminProto.DeleteRoomRequest{
+		Id: roomId,
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	token := c.GetString("token")
+	j := middleware.NewJWT()
+	refreshedToken, _ := j.RefreshToken(token)
+	HandleHttpResponse(c, http.StatusOK, "删除会议室成功", refreshedToken, nil)
+	return
+
 }

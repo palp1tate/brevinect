@@ -32,6 +32,11 @@ type AdminServiceClient interface {
 	DeleteCompany(ctx context.Context, in *DeleteCompanyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetCompany(ctx context.Context, in *GetCompanyRequest, opts ...grpc.CallOption) (*GetCompanyResponse, error)
 	GetCompanyList(ctx context.Context, in *GetCompanyListRequest, opts ...grpc.CallOption) (*GetCompanyListResponse, error)
+	AddRoom(ctx context.Context, in *AddRoomRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateRoom(ctx context.Context, in *UpdateRoomRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteRoom(ctx context.Context, in *DeleteRoomRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error)
+	GetRoomList(ctx context.Context, in *GetRoomListRequest, opts ...grpc.CallOption) (*GetRoomListResponse, error)
 }
 
 type adminServiceClient struct {
@@ -123,6 +128,51 @@ func (c *adminServiceClient) GetCompanyList(ctx context.Context, in *GetCompanyL
 	return out, nil
 }
 
+func (c *adminServiceClient) AddRoom(ctx context.Context, in *AddRoomRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/adminProto.AdminService/AddRoom", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateRoom(ctx context.Context, in *UpdateRoomRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/adminProto.AdminService/UpdateRoom", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteRoom(ctx context.Context, in *DeleteRoomRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/adminProto.AdminService/DeleteRoom", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error) {
+	out := new(GetRoomResponse)
+	err := c.cc.Invoke(ctx, "/adminProto.AdminService/GetRoom", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetRoomList(ctx context.Context, in *GetRoomListRequest, opts ...grpc.CallOption) (*GetRoomListResponse, error) {
+	out := new(GetRoomListResponse)
+	err := c.cc.Invoke(ctx, "/adminProto.AdminService/GetRoomList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility
@@ -136,6 +186,11 @@ type AdminServiceServer interface {
 	DeleteCompany(context.Context, *DeleteCompanyRequest) (*emptypb.Empty, error)
 	GetCompany(context.Context, *GetCompanyRequest) (*GetCompanyResponse, error)
 	GetCompanyList(context.Context, *GetCompanyListRequest) (*GetCompanyListResponse, error)
+	AddRoom(context.Context, *AddRoomRequest) (*emptypb.Empty, error)
+	UpdateRoom(context.Context, *UpdateRoomRequest) (*emptypb.Empty, error)
+	DeleteRoom(context.Context, *DeleteRoomRequest) (*emptypb.Empty, error)
+	GetRoom(context.Context, *GetRoomRequest) (*GetRoomResponse, error)
+	GetRoomList(context.Context, *GetRoomListRequest) (*GetRoomListResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -169,6 +224,21 @@ func (UnimplementedAdminServiceServer) GetCompany(context.Context, *GetCompanyRe
 }
 func (UnimplementedAdminServiceServer) GetCompanyList(context.Context, *GetCompanyListRequest) (*GetCompanyListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCompanyList not implemented")
+}
+func (UnimplementedAdminServiceServer) AddRoom(context.Context, *AddRoomRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddRoom not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateRoom(context.Context, *UpdateRoomRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoom not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteRoom(context.Context, *DeleteRoomRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRoom not implemented")
+}
+func (UnimplementedAdminServiceServer) GetRoom(context.Context, *GetRoomRequest) (*GetRoomResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoom not implemented")
+}
+func (UnimplementedAdminServiceServer) GetRoomList(context.Context, *GetRoomListRequest) (*GetRoomListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoomList not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 
@@ -345,6 +415,96 @@ func _AdminService_GetCompanyList_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_AddRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddRoomRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).AddRoom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminProto.AdminService/AddRoom",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).AddRoom(ctx, req.(*AddRoomRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRoomRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateRoom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminProto.AdminService/UpdateRoom",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateRoom(ctx, req.(*UpdateRoomRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRoomRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteRoom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminProto.AdminService/DeleteRoom",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteRoom(ctx, req.(*DeleteRoomRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoomRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetRoom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminProto.AdminService/GetRoom",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetRoom(ctx, req.(*GetRoomRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetRoomList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoomListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetRoomList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminProto.AdminService/GetRoomList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetRoomList(ctx, req.(*GetRoomListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -387,6 +547,26 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCompanyList",
 			Handler:    _AdminService_GetCompanyList_Handler,
+		},
+		{
+			MethodName: "AddRoom",
+			Handler:    _AdminService_AddRoom_Handler,
+		},
+		{
+			MethodName: "UpdateRoom",
+			Handler:    _AdminService_UpdateRoom_Handler,
+		},
+		{
+			MethodName: "DeleteRoom",
+			Handler:    _AdminService_DeleteRoom_Handler,
+		},
+		{
+			MethodName: "GetRoom",
+			Handler:    _AdminService_GetRoom_Handler,
+		},
+		{
+			MethodName: "GetRoomList",
+			Handler:    _AdminService_GetRoomList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -35,3 +35,8 @@ func FindAllCompany() (companies []model.Company, err error) {
 	err = global.DB.Order("id desc").Find(&companies).Error
 	return
 }
+
+func FindCompanyById(id int) (company model.Company, err error) {
+	err = global.DB.Where("id = ?", id).First(&company).Error
+	return
+}
