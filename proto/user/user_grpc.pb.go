@@ -31,7 +31,6 @@ type UserServiceClient interface {
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	UploadFace(ctx context.Context, in *UploadFaceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	CheckFace(ctx context.Context, in *CheckFaceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetAllCompany(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllCompanyResponse, error)
 	GetCompany(ctx context.Context, in *GetCompanyRequest, opts ...grpc.CallOption) (*GetCompanyResponse, error)
 }
@@ -116,15 +115,6 @@ func (c *userServiceClient) UploadFace(ctx context.Context, in *UploadFaceReques
 	return out, nil
 }
 
-func (c *userServiceClient) CheckFace(ctx context.Context, in *CheckFaceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/userProto.UserService/CheckFace", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) GetAllCompany(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllCompanyResponse, error) {
 	out := new(GetAllCompanyResponse)
 	err := c.cc.Invoke(ctx, "/userProto.UserService/GetAllCompany", in, out, opts...)
@@ -155,7 +145,6 @@ type UserServiceServer interface {
 	ResetPassword(context.Context, *ResetPasswordRequest) (*emptypb.Empty, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*emptypb.Empty, error)
 	UploadFace(context.Context, *UploadFaceRequest) (*emptypb.Empty, error)
-	CheckFace(context.Context, *CheckFaceRequest) (*emptypb.Empty, error)
 	GetAllCompany(context.Context, *emptypb.Empty) (*GetAllCompanyResponse, error)
 	GetCompany(context.Context, *GetCompanyRequest) (*GetCompanyResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
@@ -188,9 +177,6 @@ func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserReq
 }
 func (UnimplementedUserServiceServer) UploadFace(context.Context, *UploadFaceRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadFace not implemented")
-}
-func (UnimplementedUserServiceServer) CheckFace(context.Context, *CheckFaceRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckFace not implemented")
 }
 func (UnimplementedUserServiceServer) GetAllCompany(context.Context, *emptypb.Empty) (*GetAllCompanyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllCompany not implemented")
@@ -355,24 +341,6 @@ func _UserService_UploadFace_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_CheckFace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckFaceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).CheckFace(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/userProto.UserService/CheckFace",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CheckFace(ctx, req.(*CheckFaceRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_GetAllCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
@@ -447,10 +415,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadFace",
 			Handler:    _UserService_UploadFace_Handler,
-		},
-		{
-			MethodName: "CheckFace",
-			Handler:    _UserService_CheckFace_Handler,
 		},
 		{
 			MethodName: "GetAllCompany",

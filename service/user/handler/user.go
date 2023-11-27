@@ -163,17 +163,6 @@ func (s *UserServer) UploadFace(ctx context.Context, req *userProto.UploadFaceRe
 	return &empty.Empty{}, nil
 }
 
-func (s *UserServer) CheckFace(ctx context.Context, req *userProto.CheckFaceRequest) (*empty.Empty, error) {
-	user, err := dao.FindUserById(int(req.Id))
-	if err != nil {
-		return nil, status.Error(codes.NotFound, "该用户不存在")
-	}
-	if user.Face == "" {
-		return nil, status.Error(codes.Internal, "该用户未上传人脸")
-	}
-	return &empty.Empty{}, nil
-}
-
 func CompanyModelToResponse(company model.Company) *userProto.Company {
 	return &userProto.Company{
 		Id:   int64(company.ID),

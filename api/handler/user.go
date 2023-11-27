@@ -236,19 +236,3 @@ func UploadFace(c *gin.Context) {
 	HandleHttpResponse(c, http.StatusOK, "上传人脸成功", refreshedToken, nil)
 	return
 }
-
-func CheckFace(c *gin.Context) {
-	userId := c.GetInt("id")
-	_, err := global.UserServiceClient.CheckFace(context.Background(), &userProto.CheckFaceRequest{
-		Id: int64(userId),
-	})
-	if err != nil {
-		HandleGrpcErrorToHttp(c, err)
-		return
-	}
-	token := c.GetString("token")
-	j := middleware.NewJWT()
-	refreshedToken, _ := j.RefreshToken(token)
-	HandleHttpResponse(c, http.StatusOK, "该用户已上传人脸", refreshedToken, nil)
-	return
-}

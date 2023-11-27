@@ -15,7 +15,6 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		UserRouter.PUT("/reset_password", handler.ResetPassword)
 		UserRouter.PUT("/update_user", middleware.JWTAuth(), handler.UpdateUserByUser)
 		UserRouter.POST("/upload_face", middleware.JWTAuth(), handler.UploadFace)
-		UserRouter.GET("check_face", middleware.JWTAuth(), handler.CheckFace)
 
 		UserRouter.GET("get_all_company", handler.GetAllCompany)
 		UserRouter.GET("get_company", middleware.JWTAuth(), handler.GetCompanyByUser)
