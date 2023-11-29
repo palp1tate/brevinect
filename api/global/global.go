@@ -2,6 +2,7 @@ package global
 
 import (
 	ut "github.com/go-playground/universal-translator"
+	"github.com/importcjj/sensitive"
 	"github.com/palp1tate/brevinect/api/config"
 	"github.com/palp1tate/brevinect/proto/admin"
 	"github.com/palp1tate/brevinect/proto/meeting"
@@ -10,7 +11,8 @@ import (
 )
 
 var (
-	Debug bool
+	Debug  bool
+	Filter *sensitive.Filter
 
 	Translator ut.Translator
 

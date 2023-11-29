@@ -21,10 +21,11 @@ func main() {
 	initialize.InitConfig()
 	initialize.InitLogger()
 	router, closer := initialize.Router()
-	if err := initialize.InitTrans("zh"); err != nil {
+	if err := initialize.InitTranslator("zh"); err != nil {
 		zap.S().Warn("初始化翻译器失败:", err.Error())
 		panic(err)
 	}
+	initialize.InitFilter()
 	initialize.InitValidator()
 	initialize.InitServiceConn()
 

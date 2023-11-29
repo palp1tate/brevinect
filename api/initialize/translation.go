@@ -15,7 +15,7 @@ import (
 	"github.com/palp1tate/brevinect/api/global"
 )
 
-func InitTrans(locale string) (err error) {
+func InitTranslator(locale string) (err error) {
 	// 修改gin框架中的validator引擎属性, 实现定制
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		// 注册一个获取json的tag的自定义方法

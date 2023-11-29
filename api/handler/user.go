@@ -30,7 +30,7 @@ func Register(c *gin.Context) {
 		return
 	}
 	res, err := global.UserServiceClient.Register(context.Background(), &userProto.RegisterRequest{
-		Username: registerForm.Username,
+		Username: global.Filter.Replace(registerForm.Username, '*'),
 		Mobile:   registerForm.Mobile,
 		Password: registerForm.Password,
 		Company:  int64(registerForm.Company),
@@ -175,7 +175,7 @@ func UpdateUserByUser(c *gin.Context) {
 	userId := c.GetInt("id")
 	_, err := global.UserServiceClient.UpdateUser(context.Background(), &userProto.UpdateUserRequest{
 		Id:       int64(userId),
-		Username: updateUserForm.Username,
+		Username: global.Filter.Replace(updateUserForm.Username, '*'),
 		Avatar:   updateUserForm.Avatar,
 		Face:     updateUserForm.Face,
 	})
