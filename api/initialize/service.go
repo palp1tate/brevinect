@@ -2,12 +2,14 @@ package initialize
 
 import (
 	"fmt"
-	meetingProto "github.com/palp1tate/brevinect/proto/meeting"
 	"sync"
 
+	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	_ "github.com/mbobakov/grpc-consul-resolver"
+	"github.com/opentracing/opentracing-go"
 	"github.com/palp1tate/brevinect/api/global"
 	"github.com/palp1tate/brevinect/proto/admin"
+	"github.com/palp1tate/brevinect/proto/meeting"
 	"github.com/palp1tate/brevinect/proto/third"
 	"github.com/palp1tate/brevinect/proto/user"
 	"go.uber.org/zap"
@@ -27,6 +29,7 @@ func InitServiceConn() {
 				consul.Host, consul.Port, global.ServerConfig.Service.User),
 			grpc.WithTransportCredentials(insecure.NewCredentials()),
 			grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
+			grpc.WithUnaryInterceptor(otgrpc.OpenTracingClientInterceptor(opentracing.GlobalTracer())),
 		)
 		if err != nil {
 			zap.S().Fatal("连接用户服务失败")
@@ -42,6 +45,7 @@ func InitServiceConn() {
 				consul.Host, consul.Port, global.ServerConfig.Service.Admin),
 			grpc.WithTransportCredentials(insecure.NewCredentials()),
 			grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
+			grpc.WithUnaryInterceptor(otgrpc.OpenTracingClientInterceptor(opentracing.GlobalTracer())),
 		)
 		if err != nil {
 			zap.S().Fatal("连接管理员服务失败")
@@ -57,6 +61,7 @@ func InitServiceConn() {
 				consul.Host, consul.Port, global.ServerConfig.Service.Meeting),
 			grpc.WithTransportCredentials(insecure.NewCredentials()),
 			grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
+			grpc.WithUnaryInterceptor(otgrpc.OpenTracingClientInterceptor(opentracing.GlobalTracer())),
 		)
 		if err != nil {
 			zap.S().Fatal("连接会议服务失败")
@@ -72,7 +77,7 @@ func InitServiceConn() {
 				consul.Host, consul.Port, global.ServerConfig.Service.ThirdParty),
 			grpc.WithTransportCredentials(insecure.NewCredentials()),
 			grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
-		)
+			grpc.WithUnaryInterceptor(otgrpc.OpenTracingClientInterceptor(opentracing.GlobalTracer())))
 		if err != nil {
 			zap.S().Fatal("连接第三方服务失败")
 		}

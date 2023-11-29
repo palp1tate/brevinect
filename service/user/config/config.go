@@ -18,10 +18,16 @@ type ConsulConfig struct {
 	Port int    `json:"port"`
 }
 
+type JaegerConfig struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
+}
+
 type ServerConfig struct {
 	Service ServiceConfig `json:"service"`
 	MySQL   MySQLConfig   `json:"mysql"`
 	Consul  ConsulConfig  `json:"consul"`
+	Jaeger  JaegerConfig  `json:"jaeger"`
 }
 
 type NacosConfig struct {

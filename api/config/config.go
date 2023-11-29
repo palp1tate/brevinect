@@ -22,11 +22,17 @@ type ConsulConfig struct {
 	Port int    `json:"port"`
 }
 
+type JaegerConfig struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
+}
+
 type ServerConfig struct {
 	Api     ApiConfig     `json:"api"`
 	Service ServiceConfig `json:"service"`
 	JWT     JWTConfig     `json:"jwt"`
 	Consul  ConsulConfig  `json:"consul"`
+	Jaeger  JaegerConfig  `json:"jaeger"`
 }
 
 type NacosConfig struct {

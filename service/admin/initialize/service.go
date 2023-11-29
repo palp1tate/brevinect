@@ -1,6 +1,11 @@
 package initialize
 
 import (
+	"io"
+
+	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
+	"github.com/palp1tate/brevinect/service/admin/global"
+
 	"github.com/palp1tate/brevinect/proto/admin"
 	"github.com/palp1tate/brevinect/service/admin/handler"
 	"google.golang.org/grpc"
@@ -8,9 +13,10 @@ import (
 	"google.golang.org/grpc/health/grpc_health_v1"
 )
 
-func InitGRPC() *grpc.Server {
-	server := grpc.NewServer()
+func InitGRPC() (*grpc.Server, io.Closer) {
+	tracer, closer := NewJaegerTracer(global.ServerConfig.Service.Name)
+	server := grpc.NewServer(grpc.UnaryInterceptor(otgrpc.OpenTracingServerInterceptor(tracer)))
 	adminProto.RegisterAdminServiceServer(server, &handler.AdminServer{})
 	grpc_health_v1.RegisterHealthServer(server, health.NewServer())
-	return server
+	return server, closer
 }

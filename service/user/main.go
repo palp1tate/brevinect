@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"github.com/palp1tate/brevinect/service/user/global"
+
 	"github.com/palp1tate/brevinect/service/user/initialize"
 	"github.com/palp1tate/brevinect/util"
 	"go.uber.org/zap"
@@ -30,7 +31,7 @@ func main() {
 		zap.S().Panic("failed to listen:" + err.Error())
 	}
 
-	server := initialize.InitGRPC()
+	server, closer := initialize.InitGRPC()
 	zap.S().Info("host: ", host)
 	zap.S().Info("port: ", *port)
 	go func() {
@@ -52,7 +53,7 @@ func main() {
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-
+	defer closer.Close()
 	server.GracefulStop()
 
 	if err = client.DeRegister(serviceId); err != nil {

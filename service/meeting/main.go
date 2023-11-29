@@ -30,7 +30,7 @@ func main() {
 		zap.S().Panic("failed to listen:" + err.Error())
 	}
 
-	server := initialize.InitGRPC()
+	server, closer := initialize.InitGRPC()
 	zap.S().Info("host: ", host)
 	zap.S().Info("port: ", *port)
 	go func() {
@@ -53,6 +53,7 @@ func main() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
+	defer closer.Close()
 	server.GracefulStop()
 
 	if err = client.DeRegister(serviceId); err != nil {

@@ -32,12 +32,18 @@ type QiNiuYunConfig struct {
 	Domain    string `json:"domain"`
 }
 
+type JaegerConfig struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
+}
+
 type ServerConfig struct {
 	Service  ServiceConfig  `json:"service"`
 	Consul   ConsulConfig   `json:"consul"`
 	Redis    RedisConfig    `json:"redis"`
 	AliSms   AliSmsConfig   `json:"sms"`
 	QiNiuYun QiNiuYunConfig `json:"qiniuyun"`
+	Jaeger   JaegerConfig   `json:"jaeger"`
 }
 
 type NacosConfig struct {
