@@ -2,9 +2,13 @@ package handler
 
 import (
 	"context"
-	"github.com/palp1tate/brevinect/api/form"
 	"net/http"
 	"strconv"
+
+	sentinel "github.com/alibaba/sentinel-golang/api"
+	"github.com/alibaba/sentinel-golang/core/base"
+	"github.com/palp1tate/brevinect/api/form"
+	"github.com/palp1tate/brevinect/consts"
 
 	"github.com/gin-gonic/gin"
 	"github.com/palp1tate/brevinect/api/global"
@@ -59,6 +63,13 @@ func BookRoomByUser(c *gin.Context) {
 		return
 	}
 	userId := c.GetInt("id")
+	e, b := sentinel.Entry(consts.BookResource, sentinel.WithTrafficType(base.Inbound), sentinel.WithArgs(userId))
+	if b != nil {
+		HandleHttpResponse(c, http.StatusTooManyRequests,
+			"系统检查到您五分钟内已经预约了多个会议室，为了给他人更好的体验，请稍后再试", nil, nil)
+		return
+	}
+	defer e.Exit()
 	_, err := global.MeetingServiceClient.BookRoom(context.Background(), &meetingProto.BookRoomRequest{
 		UserId: int64(userId),
 		RoomId: bookRoomForm.RoomId,

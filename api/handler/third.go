@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"path/filepath"
 
+	sentinel "github.com/alibaba/sentinel-golang/api"
+	"github.com/alibaba/sentinel-golang/core/base"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/palp1tate/brevinect/api/form"
@@ -35,6 +37,12 @@ func SendSms(c *gin.Context) {
 		HandleValidatorError(c, err)
 		return
 	}
+	e, b := sentinel.Entry(consts.SMSResource, sentinel.WithTrafficType(base.Inbound), sentinel.WithArgs(sendSmsForm.Mobile))
+	if b != nil {
+		HandleHttpResponse(c, http.StatusTooManyRequests, "请求过于频繁，请稍后再试", nil, nil)
+		return
+	}
+	defer e.Exit()
 	if sendSmsForm.Role == consts.User {
 		switch sendSmsForm.Type {
 		case consts.Register:

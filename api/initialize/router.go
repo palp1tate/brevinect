@@ -4,13 +4,13 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/opentracing/opentracing-go"
-
 	"github.com/gin-gonic/gin"
+	"github.com/opentracing/opentracing-go"
 	"github.com/palp1tate/brevinect/api/global"
 	"github.com/palp1tate/brevinect/api/handler"
 	"github.com/palp1tate/brevinect/api/middleware"
 	"github.com/palp1tate/brevinect/api/router"
+	sentinel "github.com/sentinel-group/sentinel-go-adapters/gin"
 )
 
 func Router() (*gin.Engine, io.Closer) {
@@ -25,7 +25,11 @@ func Router() (*gin.Engine, io.Closer) {
 		handler.HandleHttpResponse(c, http.StatusOK, "ok", nil, nil)
 		return
 	})
-	r.Use(middleware.Cors(), middleware.OpenTracing())
+	r.Use(
+		middleware.Cors(),
+		middleware.OpenTracing(),
+		sentinel.SentinelMiddleware(sentinel.WithResourceExtractor(middleware.ResourceExtractor)),
+	)
 	ApiGroup := r.Group("/api")
 	router.InitThirdPartyRouter(ApiGroup)
 	router.InitUserRouter(ApiGroup)

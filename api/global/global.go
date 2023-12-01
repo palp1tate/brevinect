@@ -11,7 +11,8 @@ import (
 )
 
 var (
-	Debug  bool
+	Debug bool
+
 	Filter *sensitive.Filter
 
 	Translator ut.Translator
@@ -20,8 +21,11 @@ var (
 
 	NacosConfig *config.NacosConfig
 
-	UserServiceClient       userProto.UserServiceClient
-	AdminServiceClient      adminProto.AdminServiceClient
-	MeetingServiceClient    meetingProto.MeetingServiceClient
+	UserServiceClient userProto.UserServiceClient
+
+	AdminServiceClient adminProto.AdminServiceClient
+
+	MeetingServiceClient meetingProto.MeetingServiceClient
+
 	ThirdPartyServiceClient thirdProto.ThirdPartyServiceClient
 )

@@ -26,6 +26,7 @@ func main() {
 		panic(err)
 	}
 	initialize.InitFilter()
+	initialize.InitSentinel()
 	initialize.InitValidator()
 	initialize.InitServiceConn()
 
