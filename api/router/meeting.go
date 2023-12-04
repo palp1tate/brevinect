@@ -17,5 +17,6 @@ func InitMeetingRouter(Router *gin.RouterGroup) {
 		MeetingRouter.GET("/get_book", handler.GetBookByUser)
 		MeetingRouter.DELETE("/cancel_book", handler.CancelBookByUser)
 		MeetingRouter.PUT("/update_book", handler.UpdateBookByUser)
+		MeetingRouter.GET("/export_book", handler.GetBookExcelByUser)
 	}
 }

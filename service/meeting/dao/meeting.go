@@ -63,3 +63,13 @@ func FindBook(roomId int) (book []model.Book, err error) {
 		roomId, todayZeroTime, t).Find(&book).Error
 	return
 }
+
+func FindBooks(userId int) (books []model.Book, err error) {
+	err = global.DB.Where("user_id = ?", userId).Find(&books).Error
+	return
+}
+
+func FindUserById(userId int) (user model.User, err error) {
+	err = global.DB.Where("id = ?", userId).First(&user).Error
+	return
+}

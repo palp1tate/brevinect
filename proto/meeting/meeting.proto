@@ -11,6 +11,7 @@ service MeetingService {
   rpc CancelBook(CancelBookRequest) returns (google.protobuf.Empty);
   rpc GetBookList(GetBookListRequest) returns (GetBookListResponse);
   rpc GetBook(GetBookRequest) returns (GetBookResponse);
+  rpc GetBookExcel(GetBookExcelRequest) returns (GetBookExcelResponse);
   rpc UpdateBook(UpdateBookRequest) returns (google.protobuf.Empty);
 }
 
@@ -92,4 +93,16 @@ message Book {
   int64 roomId = 2;
   string theme = 3;
   Period period = 4;
+  int64 bookTime = 5;
 }
+
+message GetBookExcelRequest {
+  int64 userId = 1;
+}
+
+message GetBookExcelResponse {
+  bytes excel = 1;
+  string fileName = 2;
+  int64 size = 3;
+}
+

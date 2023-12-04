@@ -29,6 +29,7 @@ type MeetingServiceClient interface {
 	CancelBook(ctx context.Context, in *CancelBookRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetBookList(ctx context.Context, in *GetBookListRequest, opts ...grpc.CallOption) (*GetBookListResponse, error)
 	GetBook(ctx context.Context, in *GetBookRequest, opts ...grpc.CallOption) (*GetBookResponse, error)
+	GetBookExcel(ctx context.Context, in *GetBookExcelRequest, opts ...grpc.CallOption) (*GetBookExcelResponse, error)
 	UpdateBook(ctx context.Context, in *UpdateBookRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -94,6 +95,15 @@ func (c *meetingServiceClient) GetBook(ctx context.Context, in *GetBookRequest, 
 	return out, nil
 }
 
+func (c *meetingServiceClient) GetBookExcel(ctx context.Context, in *GetBookExcelRequest, opts ...grpc.CallOption) (*GetBookExcelResponse, error) {
+	out := new(GetBookExcelResponse)
+	err := c.cc.Invoke(ctx, "/meetingProto.MeetingService/GetBookExcel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *meetingServiceClient) UpdateBook(ctx context.Context, in *UpdateBookRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/meetingProto.MeetingService/UpdateBook", in, out, opts...)
@@ -113,6 +123,7 @@ type MeetingServiceServer interface {
 	CancelBook(context.Context, *CancelBookRequest) (*emptypb.Empty, error)
 	GetBookList(context.Context, *GetBookListRequest) (*GetBookListResponse, error)
 	GetBook(context.Context, *GetBookRequest) (*GetBookResponse, error)
+	GetBookExcel(context.Context, *GetBookExcelRequest) (*GetBookExcelResponse, error)
 	UpdateBook(context.Context, *UpdateBookRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedMeetingServiceServer()
 }
@@ -138,6 +149,9 @@ func (UnimplementedMeetingServiceServer) GetBookList(context.Context, *GetBookLi
 }
 func (UnimplementedMeetingServiceServer) GetBook(context.Context, *GetBookRequest) (*GetBookResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBook not implemented")
+}
+func (UnimplementedMeetingServiceServer) GetBookExcel(context.Context, *GetBookExcelRequest) (*GetBookExcelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookExcel not implemented")
 }
 func (UnimplementedMeetingServiceServer) UpdateBook(context.Context, *UpdateBookRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBook not implemented")
@@ -263,6 +277,24 @@ func _MeetingService_GetBook_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MeetingService_GetBookExcel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBookExcelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MeetingServiceServer).GetBookExcel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/meetingProto.MeetingService/GetBookExcel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MeetingServiceServer).GetBookExcel(ctx, req.(*GetBookExcelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MeetingService_UpdateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateBookRequest)
 	if err := dec(in); err != nil {
@@ -311,6 +343,10 @@ var MeetingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBook",
 			Handler:    _MeetingService_GetBook_Handler,
+		},
+		{
+			MethodName: "GetBookExcel",
+			Handler:    _MeetingService_GetBookExcel_Handler,
 		},
 		{
 			MethodName: "UpdateBook",

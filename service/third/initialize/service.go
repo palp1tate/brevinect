@@ -3,10 +3,9 @@ package initialize
 import (
 	"io"
 
-	"github.com/palp1tate/brevinect/service/third/global"
-
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"github.com/palp1tate/brevinect/proto/third"
+	"github.com/palp1tate/brevinect/service/third/global"
 	"github.com/palp1tate/brevinect/service/third/handler"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"

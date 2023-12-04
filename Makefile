@@ -11,6 +11,8 @@ run:
 
 	nohup go run service/third/main.go -p 8084 > service/third/output.log 2>&1 &
 
+	nohup go run service/cron/main.go > service/cron/output.log 2>&1 & echo $$! > service/cron/cron.pid
+
 	nohup go run api/main.go -p 8080 > api/output.log 2>&1 &
 
 stop:
@@ -28,6 +30,9 @@ stop:
 			echo "No process found on port $$port"; \
 		fi; \
 	done; \
+
+	if [ -f service/cron/cron.pid ]; then sudo kill -9 `cat service/cron/cron.pid` && rm service/cron/cron.pid; fi
+
 	echo "Services closed."
 
 restart-nginx:

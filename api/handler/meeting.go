@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"bytes"
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -177,5 +179,26 @@ func UpdateBookByUser(c *gin.Context) {
 	j := middleware.NewJWT()
 	refreshedToken, _ := j.RefreshToken(token)
 	HandleHttpResponse(c, http.StatusOK, "更新预定成功", refreshedToken, nil)
+	return
+}
+
+func GetBookExcelByUser(c *gin.Context) {
+	userId := c.GetInt("id")
+	res, err := global.MeetingServiceClient.GetBookExcel(context.Background(), &meetingProto.GetBookExcelRequest{
+		UserId: int64(userId),
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(c, err)
+		return
+	}
+	// 将字节流转换为io.Reader
+	reader := bytes.NewReader(res.Excel)
+	// 设置HTTP头部
+	extraHeaders := map[string]string{
+		"Content-Disposition": fmt.Sprintf(`attachment; filename="%s"`, res.FileName),
+	}
+
+	// 使用gin的c.DataFromReader函数将文件发送给前端
+	c.DataFromReader(http.StatusOK, res.Size, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", reader, extraHeaders)
 	return
 }
